@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'NoteDetails.dart';
+
 class ListShowScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -15,11 +17,19 @@ class _ListShowScreen extends State<ListShowScreen> {
     var listShow = Scaffold(
       appBar: AppBar(
         title: Text('List Show'),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back
+          ),
+          onPressed: (){
+            moveToLastScreen();
+          },
+        ),
       ),
       body: getList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          debugPrint('Floating item click');
+        onPressed: () {
+          navigateToDetails('Add Note');
         },
         tooltip: 'Add Note',
         child: Icon(Icons.add),
@@ -46,7 +56,8 @@ class _ListShowScreen extends State<ListShowScreen> {
               backgroundColor: Colors.yellow,
               child: Icon(Icons.keyboard_arrow_right),
             ),
-            onTap: (){
+            onTap: () {
+              navigateToDetails('Edit Note');
               debugPrint('Item Click');
             },
           ),
@@ -55,5 +66,16 @@ class _ListShowScreen extends State<ListShowScreen> {
       },
     );
     return myList;
+  }
+
+  void navigateToDetails(var title){
+    Navigator.push(context,
+    MaterialPageRoute(builder: (context){
+      return NoteDetails(title);
+    }));
+  }
+
+  void moveToLastScreen() {
+
   }
 }

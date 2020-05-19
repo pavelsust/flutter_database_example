@@ -16,7 +16,7 @@ class MyFlutterApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.deepPurple
       ),
-      home: NoteDetails()
+      home: ListShowScreen()
     );
 
     return materialApp;
