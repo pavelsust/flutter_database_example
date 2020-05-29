@@ -34,7 +34,7 @@ class _NoteDetails extends State<NoteDetails> {
     var textStyle = Theme.of(context).textTheme.title;
 
     return WillPopScope(
-      onWillPop: (){
+      onWillPop: () {
         navigateToLastScreen();
         return;
       },
@@ -98,41 +98,41 @@ class _NoteDetails extends State<NoteDetails> {
                     children: <Widget>[
                       Expanded(
                           child: Container(
-                            height: 45,
-                            child: RaisedButton(
-                              color: Theme.of(context).primaryColorDark,
-                              textColor: Theme.of(context).primaryColorLight,
-                              child: Text(
-                                'Save',
-                                style: TextStyle(fontSize: 12, color: Colors.white),
-                                textScaleFactor: 1.5,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  debugPrint('Save Button Clicked');
-                                });
-                              },
-                            ),
-                          )),
+                        height: 45,
+                        child: RaisedButton(
+                          color: Theme.of(context).primaryColorDark,
+                          textColor: Theme.of(context).primaryColorLight,
+                          child: Text(
+                            'Save',
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                            textScaleFactor: 1.5,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              debugPrint('Save Button Clicked');
+                            });
+                          },
+                        ),
+                      )),
                       Container(width: 5),
                       Expanded(
                           child: Container(
-                            height: 45,
-                            child: RaisedButton(
-                              color: Theme.of(context).primaryColorDark,
-                              textColor: Theme.of(context).primaryColorLight,
-                              child: Text(
-                                'Delete',
-                                style: TextStyle(fontSize: 12, color: Colors.white),
-                                textScaleFactor: 1.5,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  debugPrint('Delete Button Clicked');
-                                });
-                              },
-                            ),
-                          ))
+                        height: 45,
+                        child: RaisedButton(
+                          color: Theme.of(context).primaryColorDark,
+                          textColor: Theme.of(context).primaryColorLight,
+                          child: Text(
+                            'Delete',
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                            textScaleFactor: 1.5,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              debugPrint('Delete Button Clicked');
+                            });
+                          },
+                        ),
+                      ))
                     ],
                   ))
             ],
@@ -142,7 +142,7 @@ class _NoteDetails extends State<NoteDetails> {
     );
   }
 
-  void navigateToLastScreen(){
+  void navigateToLastScreen() {
     Navigator.pop(context);
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterdatabaseexample/pojo/Note.dart';
+import 'package:flutterdatabaseexample/screen/TestScreen.dart';
 
 import 'NoteDetails.dart';
 
@@ -17,19 +19,13 @@ class _ListShowScreen extends State<ListShowScreen> {
     var listShow = Scaffold(
       appBar: AppBar(
         title: Text('List Show'),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back
-          ),
-          onPressed: (){
-            moveToLastScreen();
-          },
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: getList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          navigateToDetails('Add Note');
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => TestScreen(),
+          settings: RouteSettings(arguments: Note('pavel' , 'pavel'))), (route) => false);
         },
         tooltip: 'Add Note',
         child: Icon(Icons.add),
@@ -73,9 +69,5 @@ class _ListShowScreen extends State<ListShowScreen> {
     MaterialPageRoute(builder: (context){
       return NoteDetails(title);
     }));
-  }
-
-  void moveToLastScreen() {
-
   }
 }
