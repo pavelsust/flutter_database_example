@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterdatabaseexample/pojo/Note.dart';
 import 'package:flutterdatabaseexample/utils/DatabaseHelper.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'NoteDetails.dart';
 
@@ -14,20 +15,22 @@ class ListShowScreen extends StatefulWidget {
 class _ListShowScreen extends State<ListShowScreen> {
   var count = 0;
   var databaseHelper = DatabaseHelper();
-  var noteList = List<Note>();
+  var noteList;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    if (noteList == null) {
-      noteList = List<Note>();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+
+    if (noteList == null) {
+      noteList = List<Note>();
+      updateListView();
+    }
+
     var listShow = Scaffold(
       appBar: AppBar(
         title: Text('List Show'),
@@ -40,7 +43,7 @@ class _ListShowScreen extends State<ListShowScreen> {
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => TestScreen(),
           settings: RouteSettings(arguments: Note('pavel' , 'pavel'))), (route) => false);
            */
-          navigateToDetails('Add Note');
+          navigateToDetails(Note('' , '' , 2),'Add Note');
         },
         tooltip: 'Add Note',
         child: Icon(Icons.add),
@@ -56,6 +59,8 @@ class _ListShowScreen extends State<ListShowScreen> {
     var myList = ListView.builder(
       itemCount: count,
       itemBuilder: (context, position) {
+
+        debugPrint('${this.noteList[position].priority}');
         var cardDesign = Card(
           color: Colors.white,
           elevation: 2.0,
@@ -65,20 +70,19 @@ class _ListShowScreen extends State<ListShowScreen> {
             onTap: (){
                 _delete(context, this.noteList[position]);
             },),
-
-
             title: Text(this.noteList[position].title, style: textStyle),
             subtitle:
                 Text(this.noteList[position].description, style: textStyle),
             leading: CircleAvatar(
-              backgroundColor:
-                  getPriorityColor(this.noteList[position].priority),
-              child: Icon(this.noteList[position].priority),
+              backgroundColor:getPriorityColor(this.noteList[position].priority),
+
+              child: getPriorityIcon(this.noteList[position].priority),
             ),
             onTap: () {
-              navigateToDetails('Edit Note');
+              navigateToDetails(this.noteList[position],'Edit Note');
               debugPrint('Item Click');
             },
+
           ),
         );
         return cardDesign;
@@ -87,16 +91,21 @@ class _ListShowScreen extends State<ListShowScreen> {
     return myList;
   }
 
-  void navigateToDetails(var title) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return NoteDetails(title);
+  void navigateToDetails(Note note , var title) async {
+   var result =  await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return NoteDetails(note, title);
     }));
+
+   if(result){
+     updateListView();
+   }
   }
 
   void _delete(BuildContext context, Note note) async {
     var result = await databaseHelper.deleteNote(note.id);
     if (result != 0) {
       _showSnackBar(context, 'Note deleted successfully');
+      updateListView();
     }
   }
 
@@ -130,5 +139,18 @@ class _ListShowScreen extends State<ListShowScreen> {
       default:
         return Icon(Icons.keyboard_arrow_right);
     }
+  }
+
+  void updateListView(){
+    final Future<Database> db = databaseHelper.initializedDatabase();
+    db.then((value){
+      Future<List<Note>> list = databaseHelper.getNoteList();
+      list.then((value){
+        setState(() {
+          this.noteList = value;
+          this.count = noteList.length;
+        });
+      });
+    });
   }
 }
