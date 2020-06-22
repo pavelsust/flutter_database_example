@@ -274,7 +274,7 @@ class _NoteDetails extends State<NoteDetails> {
       return;
     }
 
-    var result = await databaseHelper.deleteNote(note.id);
+    var result = await databaseHelper.deleteNote(note);
     if (result != 0) {
       // Success
       _showAlertDialog('Status', 'Note deleted Successfully');

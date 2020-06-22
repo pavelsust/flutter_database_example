@@ -102,7 +102,8 @@ class _ListShowScreen extends State<ListShowScreen> {
   }
 
   void _delete(BuildContext context, Note note) async {
-    var result = await databaseHelper.deleteNote(note.id);
+    debugPrint('note id ${note.id}');
+    var result = await databaseHelper.deleteNote(note);
     if (result != 0) {
       _showSnackBar(context, 'Note deleted successfully');
       updateListView();
