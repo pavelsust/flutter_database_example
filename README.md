@@ -1,8 +1,9 @@
 # flutterdatabaseexample
 
-A new Flutter application.
 
 ## Getting Started
+
+This is a simple note keeping Flutter project. Here I show how we can save data into sqflite database in flutter. Here you can update , delete , add new data into the sqflite database
 
 
 
